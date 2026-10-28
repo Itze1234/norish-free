@@ -21,11 +21,7 @@ services:
       - key: OBSCURA_ENDPOINT
         value: http://norish-obscura:3000
       - key: UPLOADS_DIR
-        value: /data/uploads
-    disk:
-      name: norish-storage
-      mountPath: /data
-      sizeGB: 1
+        value: /tmp/uploads
 
   - type: private
     name: norish-obscura
