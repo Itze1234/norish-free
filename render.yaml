@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: norish-app
+    runtime: docker
+    repo: https://github.com
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: norish-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: norish-redis
+          property: connectionString
+      - key: MASTER_KEY
+        generateValue: true
+      - key: AUTH_URL
+        fromContext: instanceUrl
+      - key: OBSCURA_ENDPOINT
+        value: http://norish-obscura:3000
+      - key: UPLOADS_DIR
+        value: /data/uploads
+    disk:
+      name: norish-storage
+      mountPath: /data
+      sizeGB: 1
+
+  - type: private
+    name: norish-obscura
+    runtime: docker
+    plan: free
+
+databases:
+  - name: norish-db
+    plan: free
+
+redis:
+  - name: norish-redis
+    plan: free
